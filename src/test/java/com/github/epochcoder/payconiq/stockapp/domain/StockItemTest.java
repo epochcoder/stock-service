@@ -61,6 +61,15 @@ public class StockItemTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void needsPositivePrice() {
+        StockItem.builder()
+                .withName("BTC")
+                .withLastUpdated(new Date())
+                .withCurrentPrice(new BigDecimal("-1"))
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void needsLastUpdated() {
         StockItem.builder()
                 .withName("BTC")
@@ -69,8 +78,26 @@ public class StockItemTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void needsValidLastUpdated() {
+        StockItem.builder()
+                .withName("BTC")
+                .withLastUpdated(new Date(System.currentTimeMillis() + 1000))
+                .withCurrentPrice(BigDecimal.ZERO)
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void needsName() {
         StockItem.builder()
+                .withLastUpdated(new Date())
+                .withCurrentPrice(BigDecimal.ONE)
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void needsValidName() {
+        StockItem.builder()
+                .withName("    ")
                 .withLastUpdated(new Date())
                 .withCurrentPrice(BigDecimal.ONE)
                 .build();

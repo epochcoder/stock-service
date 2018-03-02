@@ -131,12 +131,15 @@ public final class StockItem {
         }
 
         /**
-         * validates that we have enough information to create this stock item
+         * validates that we have enough (valid) information to create this stock item
          */
         private void validate() {
-            Assert.isTrue(this.name != null, "Stock item needs a valid name");
+            Assert.isTrue(this.name != null && !"".equals(this.name.trim()), "Stock item needs a valid name");
             Assert.isTrue(this.currentPrice != null, "Stock item needs a valid price");
             Assert.isTrue(this.lastUpdated != null, "Stock item needs a valid updated time");
+
+            Assert.isTrue(this.currentPrice.compareTo(BigDecimal.ZERO) >= 0, "Stock price has to be positive");
+            Assert.isTrue(this.lastUpdated.compareTo(new Date()) <= 0, "Stock price cannot be future dated");
         }
     }
 }
