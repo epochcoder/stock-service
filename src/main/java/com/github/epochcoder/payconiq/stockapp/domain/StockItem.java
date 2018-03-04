@@ -3,6 +3,7 @@ package com.github.epochcoder.payconiq.stockapp.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.github.epochcoder.payconiq.stockapp.entity.Stock;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
@@ -116,6 +117,20 @@ public final class StockItem {
 
         public Builder withLastUpdated(Date lastUpdated) {
             this.lastUpdated = Objects.requireNonNull(lastUpdated, "Cannot create a stock without a last updated time");
+            return this;
+        }
+
+        /**
+         * Convenience method for building a stockEntity item directly from an entity
+         * @param stockEntity the stockEntity entity to use
+         * @return a valid instance of this builder
+         */
+        public Builder withEntity(Stock stockEntity) {
+            this.withId(stockEntity.getId());
+            this.withName(stockEntity.getName());
+            this.withLastUpdated(stockEntity.getLastUpdated());
+            this.withCurrentPrice(stockEntity.getCurrentPrice());
+
             return this;
         }
 

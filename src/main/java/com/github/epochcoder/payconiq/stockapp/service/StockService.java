@@ -1,6 +1,8 @@
 package com.github.epochcoder.payconiq.stockapp.service;
 
 import com.github.epochcoder.payconiq.stockapp.domain.StockItem;
+import com.github.epochcoder.payconiq.stockapp.exception.StockNotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -26,27 +28,21 @@ public interface StockService {
      * @param item the updated information for the stock item
      * @return the updated stock item
      */
-    StockItem update(long id, StockItem item);
+    StockItem update(Long id, StockItem item);
 
     /**
      * Gets the stock item with the specified id from the application
      * @param id the identifier of the stock to retrieve
      * @return the retrieved stock item
+     * @throws StockNotFoundException if the stock could not be found
      */
-    StockItem retrieve(long id);
+    StockItem retrieve(Long id) throws StockNotFoundException;
 
     /**
-     * Gets a list of stock items that satisfy the specified requested range
+     * Gets a page of stock items that satisfy the specified requested range
      * @param pageable the pageable range to retrieve
      * @return the retrieved stock items
      */
-    List<StockItem> retrieve(Pageable pageable);
-
-    /**
-     * Removes the stock item with the specified id from the application
-     * @param id the identifier of the stock to remove
-     * @return the newly created stock item
-     */
-    boolean remove(long id);
+    Page<StockItem> retrieve(Pageable pageable);
 
 }

@@ -15,8 +15,19 @@ databaseChangeLog:
                 name: name
                 type: nvarchar(255)
             - column:
-                name: currentPrice
+                name: current_price
                 type: decimal
             - column:
-                name: lastUpdate
-                type: date
+                name: last_updated
+                type: timestamp
+
+  - changeSet:
+      id: init-db-add-auto-increment
+      author: epochcoder
+      changes:
+        - addAutoIncrement:
+            tableName: stock
+            columnName: id
+            columnDataType: number
+            startWith: 1
+            incrementBy: 1

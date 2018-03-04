@@ -2,6 +2,7 @@ package com.github.epochcoder.payconiq.stockapp.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.epochcoder.payconiq.stockapp.entity.Stock;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class StockItemTest {
@@ -128,5 +130,23 @@ public class StockItemTest {
                 .withLastUpdated(new Date())
                 .withCurrentPrice(BigDecimal.ONE)
                 .build();
+    }
+
+    @Test
+    public void buildsWithEntity() {
+        final Stock stockEntity = new Stock();
+        stockEntity.setId(1L);
+        stockEntity.setCurrentPrice(BigDecimal.ZERO);
+        stockEntity.setLastUpdated(new Date());
+        stockEntity.setName("ENTS");
+
+        StockItem item = StockItem.builder()
+                .withEntity(stockEntity)
+                .build();
+
+        assertEquals(item.getName(), stockEntity.getName());
+        assertEquals(item.getId(), stockEntity.getId());
+        assertEquals(item.getLastUpdated(), stockEntity.getLastUpdated());
+        assertEquals(item.getCurrentPrice(), stockEntity.getCurrentPrice());
     }
 }
