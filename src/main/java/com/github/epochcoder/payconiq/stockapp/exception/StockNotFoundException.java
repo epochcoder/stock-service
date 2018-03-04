@@ -13,6 +13,6 @@ public class StockNotFoundException extends Exception {
     }
 
     public Long getStockId() {
-        return stockId;
+        return this.stockId;
     }
 }

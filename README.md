@@ -5,6 +5,14 @@ Initially, some sample stocks are loaded from a configuration file in the projec
 
 An application context listener populates this when the application is initially started and the `stock` table is empty.  
 
+## Technical Stack
+
+* Maven
+* Java 8
+* Spring boot
+* Liquibase
+* H2
+
 ## Running the application
 
 The application is built on `spring-boot` and is therefore easily runnable via the built-in maven plugin:
