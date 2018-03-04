@@ -1,7 +1,6 @@
 package com.github.epochcoder.payconiq.stockapp.service;
 
 import com.github.epochcoder.payconiq.stockapp.domain.StockItem;
-import com.github.epochcoder.payconiq.stockapp.entity.Stock;
 import com.github.epochcoder.payconiq.stockapp.exception.StockNotFoundException;
 import com.github.epochcoder.payconiq.stockapp.repository.StockRepository;
 import org.junit.Before;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
@@ -53,13 +51,25 @@ public class StockServiceTest {
     }
 
     @Test
-    public void updateStock() {
-        final StockItem toUpdate = createStockItem(this.created.getId(), "NWSTK", "123.123");
+    public void updateStock() throws StockNotFoundException {
+        final StockItem toUpdate = createStockItem(this.created.getId(), "USTK", "123.123");
         final StockItem updated = this.stockService.update(toUpdate.getId(), toUpdate);
 
         assertEqualTo(toUpdate, updated);
         assertThat("Stock repo should still have only one entry",
                 this.stockRepository.count(), is(equalTo(1L)));
+    }
+
+    @Test(expected = StockNotFoundException.class)
+    public void updateInvalidNullStock() throws StockNotFoundException {
+        final StockItem toUpdate = createStockItem(this.created.getId(), "UISTK", "124.124");
+        this.stockService.update(null, toUpdate);
+    }
+
+    @Test(expected = StockNotFoundException.class)
+    public void updateInvalidNonExistingStock() throws StockNotFoundException {
+        final StockItem toUpdate = createStockItem(this.created.getId(), "UINESTK", "125.125");
+        this.stockService.update(222L, toUpdate);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -90,7 +100,7 @@ public class StockServiceTest {
         }
 
         int i = 0;
-        final Page<StockItem> page = this.stockService.retrieve(new PageRequest(0, amount));
+        final Page<StockItem> page = this.stockService.retrieveAll(new PageRequest(0, amount));
         for (StockItem stockItem : page) {
             assertEqualTo(toVerify.get(i++), stockItem);
         }

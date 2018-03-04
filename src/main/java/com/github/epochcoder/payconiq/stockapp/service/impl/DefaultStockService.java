@@ -12,12 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
  * The default implementation of the stock service
- *
+ * <p>
  * Currently only acts as a bridge between the controller and repository,
  * but may expand once more business logic is required
  */
@@ -40,9 +39,13 @@ public class DefaultStockService implements StockService {
     }
 
     @Override
-    public StockItem update(Long id, StockItem item) {
+    public StockItem update(Long id, StockItem item) throws StockNotFoundException {
         LOGGER.info("Updating stock[{}] in repository", item);
-        return this.persist(id, item);
+        if (id == null) {
+            throw new StockNotFoundException(id);
+        }
+
+        return this.persist(this.retrieve(id).getId(), item);
     }
 
     @Override
@@ -56,7 +59,7 @@ public class DefaultStockService implements StockService {
     }
 
     @Override
-    public Page<StockItem> retrieve(Pageable pageable) {
+    public Page<StockItem> retrieveAll(Pageable pageable) {
         LOGGER.info("Retrieving stocks with query[{}] from repository", pageable);
         final Page<Stock> retrievedList = this.stockRepository.findAll(pageable);
 
