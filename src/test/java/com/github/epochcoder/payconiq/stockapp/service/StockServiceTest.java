@@ -14,10 +14,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -95,7 +96,7 @@ public class StockServiceTest {
         final int amount = 100;
         final List<StockItem> toVerify = new ArrayList<>(amount);
 
-        for (int i = 1; i <=  amount; i++) {
+        for (int i = 1; i <= amount; i++) {
             toVerify.add(this.stockService.add(createStockItem("TST_" + i, String.valueOf(i))));
         }
 
@@ -114,7 +115,6 @@ public class StockServiceTest {
         return StockItem.builder()
                 .withId(id)
                 .withName(name)
-                .withLastUpdated(new Date())
                 .withCurrentPrice(new BigDecimal(price))
                 .build();
     }

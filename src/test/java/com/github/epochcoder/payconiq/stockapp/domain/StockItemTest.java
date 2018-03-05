@@ -72,14 +72,6 @@ public class StockItemTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void needsLastUpdated() {
-        StockItem.builder()
-                .withName("BTC")
-                .withCurrentPrice(BigDecimal.ONE)
-                .build();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void needsValidLastUpdated() {
         StockItem.builder()
                 .withName("BTC")

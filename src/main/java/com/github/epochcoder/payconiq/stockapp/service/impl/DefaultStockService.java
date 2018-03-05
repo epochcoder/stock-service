@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -71,6 +72,9 @@ public class DefaultStockService implements StockService {
 
         // ensure no id comes from path variable
         stock.setId(id);
+
+        // server side last updated
+        stock.setLastUpdated(new Date());
 
         final Stock updated = this.stockRepository.save(stock);
         return StockItem.builder().withEntity(updated).build();
