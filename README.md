@@ -21,4 +21,21 @@ The application is built on `spring-boot` and is therefore easily runnable via t
 
 ## Using the application
 
-The stock service is accessible on `http:/localhost:8080/stock-service`
+The stock service is accessible on `http:/localhost:8080/`
+
+* Get all stocks
+
+        GET /api/stocks
+        
+* Get single stock
+
+        GET /api/stocks/{stockId}
+
+* Add stock
+
+        POST /api/stocks
+
+* Update stock all Stocks
+
+        PUT /api/stocks/{stockId}
+
